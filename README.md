@@ -1,6 +1,7 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Alcove is a simple library for creating new Farama projects, following the structure of Gymnasium. 
+
 We have a public discord server (which we also use to coordinate development work) that you can join here: https://discord.gg/bnJ6kubTg6
 
 ## Installation

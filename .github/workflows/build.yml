@@ -1,0 +1,35 @@
+name: build
+on: [pull_request, push]
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  build-all:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+           docker build -f bin/all-py.Dockerfile \
+             --build-arg PYTHON_VERSION=${{ matrix.python-version }} \
+             --tag alcove-all-docker .
+      - name: Run tests
+        run: docker run alcove-all-docker pytest tests/*
+      - name: Run doctest
+        run: docker run alcove-all-docker pytest --doctest-modules alcove/
+
+  build-necessary:
+    runs-on:
+      ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+           docker build -f bin/necessary-py.Dockerfile \
+             --build-arg PYTHON_VERSION='3.10' \
+             --tag alcove-necessary-docker .
+      - name: Run tests
+        run: |
+           docker run alcove-necessary-docker pytest tests/test_core.py tests/envs/test_compatibility.py tests/envs/test_envs.py tests/spaces
